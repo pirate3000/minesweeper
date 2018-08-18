@@ -9,26 +9,31 @@ namespace ConsoleApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void PrintBoard(Board b)
         {
-            while (true)
+            for (int i = 0; i < b.BoardArray.GetLength(0); i++)
             {
-                Board b = new Board(10, 10, 50);
-                for(int i = 0; i < 10; i++)
+                for (int j = 0; j < b.BoardArray.GetLength(1); j++)
                 {
-                    for(int j = 0; j < 10; j++)
-                    {
-                        if (b.BoardArray[i, j].IsMine)
-                            Console.Write("*\t");
-                        else if(b.BoardArray[i, j].MinesAround == 0) Console.Write(" \t");
-                           else Console.Write(b.BoardArray[i, j].MinesAround + "\t"); 
-                    }
-
-                    Console.WriteLine();
+                    if (b.BoardArray[i, j].IsMine)
+                        Console.Write("*(c)\t");
+                   // else if (b.BoardArray[i, j].MinesAround == 0) Console.Write(" \t");
+                    else Console.Write(b.BoardArray[i, j].MinesAround + (b.BoardArray[i, j].State == Cell.CellState.Opened?"(o)": "(c)") + "\t");
                 }
 
-                Console.ReadLine();
+                Console.WriteLine();
             }
+        }
+
+        static void Main(string[] args)
+        {
+            Board b = new Board(10, 10, 30);
+            Program.PrintBoard(b);
+            b.OpenCell(0, 0);
+            Console.WriteLine();
+            PrintBoard(b);
+
+           Console.ReadLine();
         }
     }
 }

@@ -48,11 +48,6 @@ namespace Core
                 }
             }
 
-            Func<uint, uint, bool> isCoordsValid = (x, y) => {
-                if (x < 0 || y < 0 || x >= width || y >= height) return false;
-                return true;
-            };
-
             for(uint i = 0; i < width; i++)
             {
                 for(uint j = 0; j < height; j++)
@@ -71,6 +66,33 @@ namespace Core
                     this.BoardArray[i, j].MinesAround = mines;
                 }
             }
+        }
+
+        private bool isCoordsValid(uint x, uint y)
+        {
+            if (x < 0 || y < 0 || x >= this.BoardArray.GetLength(0) || y >= this.BoardArray.GetLength(1)) return false;
+            return true;
+        }
+
+        public void OpenCell(uint x, uint y)
+        {
+            if (this.BoardArray[x, y].IsMine) return;
+
+            if (this.BoardArray[x, y].State == Cell.CellState.Opened) return;
+
+            this.BoardArray[x, y].State = Cell.CellState.Opened;
+
+            if (this.BoardArray[x, y].MinesAround > 0) return;
+
+            if (isCoordsValid(x - 1, y - 1)) this.OpenCell(x - 1, y - 1);
+            if (isCoordsValid(x - 1, y)) this.OpenCell(x - 1, y);
+            if (isCoordsValid(x - 1, y + 1)) this.OpenCell(x - 1, y + 1);
+            if (isCoordsValid(x, y + 1)) this.OpenCell(x, y + 1);
+            if (isCoordsValid(x + 1, y + 1)) this.OpenCell(x + 1, y + 1);
+            if (isCoordsValid(x + 1, y)) this.OpenCell(x + 1, y);
+            if (isCoordsValid(x + 1, y - 1)) this.OpenCell(x + 1, y - 1);
+            if (isCoordsValid(x, y - 1)) this.OpenCell(x, y - 1);
+
         }
     }
 }
