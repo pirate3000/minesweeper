@@ -23,17 +23,49 @@ namespace ConsoleApp
 
                 Console.WriteLine();
             }
+            Console.WriteLine("==============================================");
         }
 
         static void Main(string[] args)
         {
-            Board b = new Board(10, 10, 30);
-            Program.PrintBoard(b);
-            b.OpenCell(0, 0);
-            Console.WriteLine();
-            PrintBoard(b);
+            Game game = new Game(10, 10, 10);
+            game.OpenCell(4, 5);
+            PrintBoard(game.Board);
+            if (game.GameState == Game.State.Lost)
+            {
+                Console.WriteLine("Game over");
+                Console.ReadLine();
+                return;
+            }
 
-           Console.ReadLine();
+            if (game.GameState == Game.State.Won)
+            {
+                Console.WriteLine("Victory!");
+                Console.ReadLine();
+                return;
+            }
+
+            if (game.GameState == Game.State.Running)
+            {
+                game.OpenCell(2, 4);
+                PrintBoard(game.Board);
+            }
+
+            if (game.GameState == Game.State.Lost)
+            {
+                Console.WriteLine("Game over");
+                Console.ReadLine();
+                return;
+            }
+
+            if (game.GameState == Game.State.Won)
+            {
+                Console.WriteLine("Victory!");
+                Console.ReadLine();
+                return;
+            }
+
+            Console.ReadLine();
         }
     }
 }

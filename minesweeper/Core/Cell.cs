@@ -8,10 +8,12 @@ namespace Core
 {
     public class Cell
     {
-        public enum CellState { Opened, Closed, Marked};
+        public enum CellState { Opened, Closed};
 
         public int MinesAround = 0;
         public CellState State = CellState.Closed;
         public bool IsMine = false;
+        public bool IsMarked = false;
+
     }
 }

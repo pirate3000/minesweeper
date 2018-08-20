@@ -94,5 +94,28 @@ namespace Core
             if (isCoordsValid(x, y - 1)) this.OpenCell(x, y - 1);
 
         }
+
+        public bool IsUserWon()
+        {
+            for(int i = 0; i < this.BoardArray.GetLength(0); i++)
+            {
+                for(int j = 0; j < this.BoardArray.GetLength(1); j++)
+                {
+                    if (this.BoardArray[i, j].IsMine != true && this.BoardArray[i, j].State == Cell.CellState.Closed) return false;
+                }
+            }
+            return true;
+        }
+
+        public void OpenMines()
+        {
+            for (int i = 0; i < this.BoardArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < this.BoardArray.GetLength(1); j++)
+                {
+                    if (this.BoardArray[i, j].IsMine) this.BoardArray[i, j].State = Cell.CellState.Opened;
+                }
+            }
+        }
     }
 }
