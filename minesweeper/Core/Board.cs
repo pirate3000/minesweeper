@@ -13,6 +13,12 @@ namespace Core
 
         public Cell[,] BoardArray;
 
+        public int MinesRemaining
+        {
+            get;
+            private set;
+        }
+
         public Board(uint width, uint height, uint numberOfMines)
         {
             if (width == 0 || height == 0) throw new Exception("Width and height must be more than zero");
@@ -21,6 +27,7 @@ namespace Core
 
             this.BoardArray = new Cell[width, height];
             this.CreateRandomBoard(width, height, numberOfMines);
+            this.MinesRemaining = (int)numberOfMines;
         }
 
         private void CreateRandomBoard(uint width, uint height, uint numberOfMines)
@@ -81,6 +88,7 @@ namespace Core
             if (this.BoardArray[x, y].State == Cell.CellState.Opened) return;
 
             this.BoardArray[x, y].State = Cell.CellState.Opened;
+            if(this.BoardArray[x, y].IsMarked) this.MarkCell(x, y);
 
             if (this.BoardArray[x, y].MinesAround > 0) return;
 
@@ -115,6 +123,21 @@ namespace Core
                 {
                     if (this.BoardArray[i, j].IsMine) this.BoardArray[i, j].State = Cell.CellState.Opened;
                 }
+            }
+        }
+
+        public void MarkCell(uint x, uint y)
+        {
+            if (this.BoardArray[x, y].State == Cell.CellState.Opened) return;
+            if (this.BoardArray[x, y].IsMarked)
+            {
+                this.BoardArray[x, y].IsMarked = false;
+                this.MinesRemaining++;
+            }
+            else
+            {
+                this.BoardArray[x, y].IsMarked = true;
+                this.MinesRemaining--;
             }
         }
     }

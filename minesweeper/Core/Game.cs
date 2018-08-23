@@ -17,7 +17,6 @@ namespace Core
             this.width = width;
             this.height = height;
             this.numberOfMines = numberOfMines;
-            this.MinesRemaining = (int)numberOfMines;
             this.GameState = State.Created;
             this.StartedAt = null;
         }
@@ -36,8 +35,7 @@ namespace Core
 
         public int MinesRemaining
         {
-            get;
-            private set;
+            get { return Board.MinesRemaining; }
         }
 
         public enum State { Created, Running, Won, Lost};
@@ -71,17 +69,7 @@ namespace Core
 
         public void MarkCell(uint x, uint y)
         {
-            if (Board.BoardArray[x, y].State == Cell.CellState.Opened) return;
-            if (Board.BoardArray[x, y].IsMarked)
-            {
-                Board.BoardArray[x, y].IsMarked = false;
-                this.MinesRemaining++;
-            }
-            else
-            {
-                Board.BoardArray[x, y].IsMarked = true;
-                this.MinesRemaining--;
-            }
+            Board.MarkCell(x, y);
         }
     }
 }
