@@ -35,7 +35,12 @@ namespace Core
 
         public int MinesRemaining
         {
-            get { return Board.MinesRemaining; }
+            get
+            {
+                if (GameState == State.Won || GameState == State.Lost) return 0;
+                if (Board != null) return Board.MinesRemaining;
+                return (int)numberOfMines;
+            }
         }
 
         public enum State { Created, Running, Won, Lost};
@@ -69,6 +74,10 @@ namespace Core
 
         public void MarkCell(uint x, uint y)
         {
+            if (GameState == State.Created)
+            {
+                return;
+            }
             Board.MarkCell(x, y);
         }
     }
